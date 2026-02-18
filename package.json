@@ -1,0 +1,41 @@
+{
+  "name": "git-switcher",
+  "version": "1.0.0",
+  "description": "Switch and manage multiple GitHub accounts using GitHub CLI.",
+  "keywords": [
+    "git-switcher",
+    "git",
+    "switcher",
+    "git",
+    "auth",
+    "github",
+    "cli"
+  ],
+  "homepage": "https://github.com/nandhu-44/git-switcher#readme",
+  "bugs": {
+    "url": "https://github.com/nandhu-44/git-switcher/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nandhu-44/git-switcher.git"
+  },
+  "license": "MIT",
+  "author": "n44",
+  "type": "commonjs",
+  "main": "bin/index.js",
+  "bin": {
+    "git-switcher": "bin/index.js",
+    "gs": "bin/index.js",
+    "git-s": "bin/index.js"
+  },
+  "scripts": {
+    "start": "node bin/index.js",
+    "test": "node -e \"console.log('No tests configured yet')\""
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "commander": "^14.0.3"
+  }
+}
