@@ -1,5 +1,5 @@
 {
-  "name": "git-switcher",
+  "name": "@n44/git-switcher",
   "version": "1.0.0",
   "description": "Switch and manage multiple GitHub accounts using GitHub CLI.",
   "keywords": [

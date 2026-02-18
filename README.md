@@ -1,7 +1,7 @@
 # git-switcher
 
-[![npm version](https://img.shields.io/npm/v/git-switcher)](https://www.npmjs.com/package/git-switcher)
-[![npm downloads](https://img.shields.io/npm/dm/git-switcher)](https://www.npmjs.com/package/git-switcher)
+[![npm version](https://img.shields.io/npm/v/%40n44%2Fgit-switcher)](https://www.npmjs.com/package/@n44/git-switcher)
+[![npm downloads](https://img.shields.io/npm/dm/%40n44%2Fgit-switcher)](https://www.npmjs.com/package/@n44/git-switcher)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D18-brightgreen)](https://nodejs.org/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
@@ -27,7 +27,7 @@ Switch and manage multiple GitHub accounts using GitHub CLI.
 ### Global
 
 ```bash
-npm install -g git-switcher
+npm install -g @n44/git-switcher
 ```
 
 ### Local development
