@@ -1,6 +1,6 @@
 {
   "name": "@n44/git-switcher",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Switch and manage multiple GitHub accounts using GitHub CLI.",
   "keywords": [
     "git-switcher",
@@ -30,6 +30,7 @@
   },
   "scripts": {
     "start": "node bin/index.js",
+    "postinstall": "node scripts/postinstall-check.js",
     "test": "node -e \"console.log('No tests configured yet')\""
   },
   "engines": {

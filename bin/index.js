@@ -148,7 +148,7 @@ const program = new Command();
 program
   .name(APP_NAME)
   .description("Switch and manage multiple GitHub accounts using GitHub CLI")
-  .version("1.0.0");
+  .version("1.1.0");
 
 program
   .command("doctor")
