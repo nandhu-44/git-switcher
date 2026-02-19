@@ -30,6 +30,19 @@ Switch and manage multiple GitHub accounts using GitHub CLI.
 npm install -g @n44/git-switcher
 ```
 
+### Global update
+
+```bash
+npm install -g @n44/git-switcher@latest
+```
+
+You can also run:
+
+```bash
+git-switcher update
+git-switcher update --run
+```
+
 ### Local development
 
 ```bash
@@ -143,6 +156,19 @@ git-switcher alias-rm <alias>
 ```
 
 Removes a saved alias profile.
+
+### update
+
+```bash
+git-switcher update
+```
+
+Shows the global npm update command. Use `--run` to execute it directly.
+
+## npmjs.com install command note
+
+The install command shown in the npmjs sidebar is controlled by npm and usually defaults to `npm i <package>`.
+To show global install/update commands (`-g`) prominently, keep them in this README (npmjs renders this section).
 
 ## Examples
 
