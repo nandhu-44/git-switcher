@@ -5,10 +5,12 @@ const { spawnSync } = require("node:child_process");
 const fs = require("node:fs");
 const os = require("node:os");
 const path = require("node:path");
+const pkg = require("../package.json");
 
 const APP_NAME = "git-switcher";
 const CONFIG_DIR = path.join(os.homedir(), ".git-switcher");
 const CONFIG_PATH = path.join(CONFIG_DIR, "config.json");
+const VERSION = pkg.version;
 
 function runBinary(binary, args, options = {}) {
   const result = spawnSync(binary, args, {
@@ -148,7 +150,7 @@ const program = new Command();
 program
   .name(APP_NAME)
   .description("Switch and manage multiple GitHub accounts using GitHub CLI")
-  .version("1.1.0");
+  .version(VERSION);
 
 program
   .command("doctor")
