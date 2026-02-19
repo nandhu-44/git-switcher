@@ -48,16 +48,19 @@ for (const check of checks) {
     continue;
   }
 
-  console.error(`[git-switcher] ✗ ${check.name} not available (${status.reason})`);
-  console.error(`[git-switcher]   ${check.installHint}`);
+  console.warn(`[git-switcher] ! ${check.name} not available (${status.reason})`);
+  console.warn(`[git-switcher]   ${check.installHint}`);
   missing.push(check.name);
 }
 
 if (missing.length > 0) {
-  console.error(
-    `[git-switcher] Missing required tools: ${missing.join(", ")}. Install them and run npm install again.`
+  console.log(
+    `\n[git-switcher] Missing required tools for runtime usage: ${missing.join(", ")}\n`
   );
-  process.exit(1);
+  console.log(
+    "[git-switcher] Package installed successfully. Install missing tools later to use all features."
+  );
+  process.exit(0);
 }
 
 console.log("[git-switcher] All required tools are installed.");
