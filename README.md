@@ -1,194 +1,85 @@
 # git-switcher
 
 [![npm version](https://img.shields.io/npm/v/%40n44%2Fgit-switcher)](https://www.npmjs.com/package/@n44/git-switcher)
-[![npm downloads](https://img.shields.io/npm/dm/%40n44%2Fgit-switcher)](https://www.npmjs.com/package/@n44/git-switcher)
-[![Node.js](https://img.shields.io/badge/node-%3E%3D18-brightgreen)](https://nodejs.org/)
+![dependencies](https://img.shields.io/badge/dependencies-0-2ea44f)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-Switch and manage multiple GitHub accounts using GitHub CLI.
+Switch between multiple Git accounts on **GitHub, GitLab, Bitbucket, Azure DevOps, Codeberg, Gitea, SourceHut or any self-hosted server**. Zero dependencies, and no provider CLI (like `gh`) required.
 
-## Features
+## How it works
 
-- Switch GitHub account with `gh auth switch`
-- Set up Git credential helper with `gh auth setup-git`
-- Save named account aliases for faster switching
-- Optionally set global `git user.name` and `git user.email`
-- Validate your local setup with a built-in doctor command
+Everything is plain `git config`, so it works with any host and any credential helper (Git Credential Manager, macOS Keychain, libsecret, `store`):
 
-## Requirements
+- `credential.https://<host>.username` tells git which stored credential to use for that host
+- `user.name` / `user.email` set the commit identity
+- `core.sshCommand` selects an SSH key for `ssh` remotes (optional)
 
-- Node.js 18+
-- [GitHub CLI](https://cli.github.com/)
-- [Git](https://git-scm.com/)
-- Logged in at least once with `gh auth login`
+If the `gh` CLI happens to be installed, it is kept in sync for GitHub accounts as a bonus. Nothing needs it.
 
-## Installation
-
-### Global
+## Install
 
 ```bash
 npm install -g @n44/git-switcher
 ```
 
-### Global update
+Or run once without installing:
 
 ```bash
-npm install -g @n44/git-switcher@latest
+npx @n44/git-switcher doctor
 ```
 
-You can also run:
+Requires Node.js 18+ and `git` on your `PATH`. Update with `git-switcher update --run`.
+
+## Usage
+
+Available as `git-switcher`, `git switcher`, `gs` and `git s`.
 
 ```bash
-git-switcher update
-git-switcher update --run
-```
+# save profiles (host defaults to github.com)
+gs alias-add personal octocat --git-name "Octo Cat" --git-email "octo@example.com"
+gs alias-add work jdoe --provider gitlab --git-email "j@work.io" --ssh-key ~/.ssh/id_work
+gs alias-add corp me --host git.corp.example.com
 
-### Local development
-
-```bash
-npm install
-npm link
-```
-
-## CLI names
-
-After global install (or `npm link`), you can run it in any of the following ways:
-
-```bash
-git-switcher <command>
-```
-
-```bash
-git switcher <command>
-```
-
-```bash
-gs <command>
-```
-
-```bash
-git s <command>
-```
-
-## Commands
-
-### doctor
-
-```bash
-git-switcher doctor
-```
-
-Checks whether `gh` and `git` are available and verifies authentication status.
-
-### status
-
-```bash
-git-switcher status
-```
-
-Shows the current active account and `gh auth status`.
-
-### list
-
-```bash
-git-switcher list
-```
-
-Lists detected authenticated GitHub accounts.
-
-### switch
-
-```bash
-git-switcher switch <account>
-```
-
-Optional flags:
-
-```bash
-git-switcher switch <account> --setup-git
-git-switcher switch <account> --git-name "Your Name" --git-email "you@example.com"
-```
-
-### setup
-
-```bash
-git-switcher setup
-```
-
-Runs `gh auth setup-git`.
-
-### alias-add
-
-```bash
-git-switcher alias-add <alias> <account>
-```
-
-Optional profile fields:
-
-```bash
-git-switcher alias-add <alias> <account> --git-name "Your Name" --git-email "you@example.com"
-```
-
-### aliases
-
-```bash
-git-switcher aliases
-```
-
-Lists all saved alias profiles.
-
-### use
-
-```bash
-git-switcher use <alias>
-```
-
-Optional flag:
-
-```bash
-git-switcher use <alias> --skip-setup
-```
-
-### alias-rm
-
-```bash
-git-switcher alias-rm <alias>
-```
-
-Removes a saved alias profile.
-
-### update
-
-```bash
-git-switcher update
-```
-
-Shows the global npm update command. Use `--run` to execute it directly.
-
-## npmjs.com install command note
-
-The install command shown in the npmjs sidebar is controlled by npm and usually defaults to `npm i <package>`.
-To show global install/update commands (`-g`) prominently, keep them in this README (npmjs renders this section).
-
-## Examples
-
-```bash
-# direct account switch
-gs switch personal --setup-git
-
-# create reusable profile
-gs alias-add work john-work --git-name "John" --git-email "john@company.com"
-
-# switch using saved profile
+# switch
 gs use work
+gs use                 # auto-pick the profile matching this repo's remote host
+gs use work --local    # only for the current repository
+
+# one-off switch without a saved profile
+gs switch jdoe --provider bitbucket
 ```
+
+| Command | Description |
+| --- | --- |
+| `doctor` | Check git, credential helper, identity and profiles |
+| `status` | Show identity, account per host, and this repo's remote |
+| `list` | List known accounts (`*` = currently pinned) |
+| `aliases` | List saved profiles |
+| `alias-add <alias> <user>` | Save a profile (`--provider`, `--host`, `--git-name`, `--git-email`, `--ssh-key`) |
+| `alias-rm <alias>` | Remove a profile |
+| `use [alias]` | Activate a profile (`--local` for this repo only) |
+| `switch <user>` | Activate an account directly (same options as `alias-add`, plus `--local`) |
+| `setup` | Configure a credential helper if none is set (`--helper <name>`) |
+| `update` | Print (or `--run`) the global npm update command |
+
+Providers for `--provider`: `github`, `gitlab`, `bitbucket`, `azure`, `codeberg`, `sourcehut`, `gitea`. Use `--host` for anything else.
+
+### First time with a new account
+
+Git asks for a password/token the first time it talks to a host as a new user and your credential helper stores it per username. After that, `gs use <alias>` just selects which stored credential to use. Use a personal access token where the provider requires one.
+
+## Migrating from 1.x
+
+1.x required `gh`. Existing `~/.git-switcher/config.json` aliases keep working (treated as GitHub accounts). The `list` command now reads saved profiles and pinned credentials instead of `gh auth status`.
 
 ## Config storage
 
-Alias profiles are stored in:
+Profiles live in `~/.git-switcher/config.json` (override the directory with `GIT_SWITCHER_HOME`). No tokens or secrets are stored; those stay in your credential helper.
 
-```text
-~/.git-switcher/config.json
+## Development and releases
+
+```bash
+npm test
 ```
 
-This package does not store tokens or secrets.
+Releases are published to npm by GitHub Actions when a version tag is pushed (`git tag v2.0.0 && git push --tags`), using npm trusted publishing (OIDC, with provenance), so no npm token is stored. One-time setup on npmjs.com: package settings, Trusted Publisher, GitHub Actions, repository `nandhu-44/git-switcher`, workflow `publish.yml`. `.gitlab-ci.yml` runs the tests on GitLab mirrors.
